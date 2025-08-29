@@ -1,5 +1,3 @@
-// universal scripts
-console.log('script  connected')
 //re usable functions
 function getValue(id){
     const value = document.getElementById(id).value;
@@ -72,7 +70,7 @@ for(const button of heartButtons){
             let title = btn.parentNode.parentNode.children[1].innerText;
             let number = btn.parentNode.parentNode.children[3].innerText;
             const now = new Date();
-            const timeString = now.toLocaleTimeString();
+            const timeString = now.toLocaleTimeString([], { hour12: true });
             alert('Are you sure to call to '+title+ ' ' +number)
 
             //call history function
@@ -98,3 +96,21 @@ for(const button of heartButtons){
         })
        
         
+//copy to clipboard function with help of online
+document.addEventListener('click', (e) => {
+  const button = e.target.closest('.copy-btn'); // finds the nearest button with that class
+  if (!button) return; // if click wasn't on a copy button, stop
+
+  const card = button.closest('.mycard'); // moves up to the nearest .card
+
+  const textToCopy = card.children[3].innerText;
+
+  navigator.clipboard.writeText(textToCopy)
+  .then(() => {
+    console.log('Copied to clipboard:', textToCopy);
+  })
+  .catch(err => {
+    console.error('Failed to copy:', err);
+  });
+
+});
