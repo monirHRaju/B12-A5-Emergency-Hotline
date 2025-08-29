@@ -59,7 +59,7 @@ for(const button of heartButtons){
             const availableCoins = getInnerTextNumber('available-coins');
             const newAvailableCoins = availableCoins - 20;
             if(newAvailableCoins < 0){
-                alert('You do not have sufficient balance. Please add Balance first. You need at least 20 coins but you have only '+availableCoins + ' coins')
+                alert('You do not have sufficient coins. You need at least 20 coins to make a call. You have only '+availableCoins + ' coins')
                 return;
             } else{
             getElement('available-coins').innerText = newAvailableCoins;
@@ -70,8 +70,8 @@ for(const button of heartButtons){
             let title = btn.parentNode.parentNode.children[1].innerText;
             let number = btn.parentNode.parentNode.children[3].innerText;
             const now = new Date();
-            const timeString = now.toLocaleTimeString([], { hour12: true });
-            alert('Are you sure to call to '+title+ ' ' +number)
+            const timeString = now.toLocaleTimeString();
+            alert('Calling '+title+ ' ' +number)
 
             //call history function
             const callHistoryContainer = getElement('call-history-container')
@@ -94,16 +94,25 @@ for(const button of heartButtons){
             callHistory.length = 0;
             getElement('call-history-container').innerHTML = '';
         })
-       
+
+        //copy point counter function
+        let copyPoint = 0;
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        for(const button of copyButtons){
+            button.addEventListener('click', function(){
+                copyPoint++;
+                getElement('available-copy-point').innerText = copyPoint;
+            })
+        }
         
 //copy to clipboard function with help of online
 document.addEventListener('click', (e) => {
   const button = e.target.closest('.copy-btn'); // finds the nearest button with that class
   if (!button) return; // if click wasn't on a copy button, stop
-
   const card = button.closest('.mycard'); // moves up to the nearest .card
-
+  
   const textToCopy = card.children[3].innerText;
+  alert('Hotline number '+ textToCopy + ' copied to the clipboard!');
 
   navigator.clipboard.writeText(textToCopy)
   .then(() => {
